@@ -10,8 +10,8 @@ from langchain_openai import ChatOpenAI
 
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.prompts import PromptTemplate
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.prompts import PromptTemplate
 from langchain.chains import ConversationalRetrievalChain
 
 from dotenv import load_dotenv
@@ -44,6 +44,7 @@ def save_vectorstore(chunk_size=512, chunk_overlap=50, persist_path=VECTOR_DIR):
 
     mlflow.set_experiment("vectorstore_tracking")
     with mlflow.start_run(run_name="vectorstore_build"):
+        mlflow.log_param("chunks", chunks)
         mlflow.log_param("chunk_overlap", chunk_overlap)
         mlflow.log_param("n_chunks", len(chunks))
         mlflow.log_param("n_docs", len(docs))
